@@ -24,6 +24,7 @@ DarkPhotonMassProcessor aDarkPhotonMassProcessor;
 
 DarkPhotonMassProcessor::DarkPhotonMassProcessor() :
         Processor("DarkPhotonMassProcessor"),
+        m_TrueDarkPhotonMass(0.f),
 	m_nRun(0),
 	m_nEvt(0),
 	m_nRunSum(0),
@@ -308,9 +309,9 @@ void DarkPhotonMassProcessor::processEvent( EVENT::LCEvent *pLCEvent )
 		m_crossSection = pLCEvent->getParameters().getFloatVal("crossSection");
 		m_polarizatione = pLCEvent->getParameters().getFloatVal("beamPol1");
 		m_polarizationp = pLCEvent->getParameters().getFloatVal("beamPol2");
-               double coneEnergy = 0.0;
-                double coneEnergyCharged = 0.0;
-                double coneEnergyNeutral = 0.0;
+//               double coneEnergy = 0.0;
+//                double coneEnergyCharged = 0.0;
+//                double coneEnergyNeutral = 0.0;
                 TLorentzVector pCone( 0.0 , 0.0 , 0.0 , 0.0 );
 		for (int i = 0; i < m_nPfos; ++i)
 		{

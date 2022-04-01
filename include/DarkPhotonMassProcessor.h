@@ -73,10 +73,10 @@ class DarkPhotonMassProcessor : public Processor
 		double					lumi_target=900.0;
 
 		int					m_nPfos;
+		IntVector		 		m_PfoMuonPDG{};
+		IntVector				m_MCMuonPDG{};
+		IntVector		 		m_IsoMuonPDG{};
 		int					m_nIsoLeptons;
-		int 					m_nMCParticles;
-		int 					m_nTracks;
-                int                                     m_nMCTruthTracks;
 		int					m_nMCMuons;
 		int 					m_nMCAntiMuons;
 		int  					m_nMCDiMuons;
@@ -84,10 +84,12 @@ class DarkPhotonMassProcessor : public Processor
 		int 					m_nRecoAntiMuons;
 		int  					m_nRecoDiMuons;
 		int 					m_nDiMuonIsoLeptons;
+		int 					m_nTracks;
+                int                                     m_nMCTruthTracks;
+		int 					m_nMCParticles;
 
 
-		IntVector		 		m_PfoMuonPDG{};
-		FloatVector				m_RecoDiMuonInvMass{};
+		FloatVector                           m_RecoDiMuonInvMass{};
                 FloatVector                           m_RecoMuonTotalMomentum1{};
                 FloatVector                           m_RecoMuonTotalMomentum2{};
                 FloatVector                           m_MCMuonTotalMomentum1{};
@@ -108,21 +110,20 @@ class DarkPhotonMassProcessor : public Processor
                 FloatVector                           m_EnergyRecoParticle2{};
                 FloatVector                           m_EnergyMCParticle1{};
                 FloatVector                           m_EnergyMCParticle2{};
-                FloatVector                           m_PfoMuonTrackOmega1;
-                FloatVector                           m_PfoMuonTrackTanLambda1;
-                FloatVector                           m_PfoMuonTrackPhi1;
-                FloatVector                           m_PfoMuonTrackOmega2;
-                FloatVector                           m_PfoMuonTrackTanLambda2;
-                FloatVector                           m_PfoMuonTrackPhi2;
-		FloatVector 			      m_MassResolution;
-		FloatVector 			      m_trueDarkPhotonMass;
-		FloatVector 			      m_ResidualDarkPhotonMass;
-		FloatVector 			      m_NormalizedResidualDarkPhotonMass;
+                FloatVector                           m_PfoMuonTrackOmega1{};
+                FloatVector                           m_PfoMuonTrackTanLambda1{};
+                FloatVector                           m_PfoMuonTrackPhi1{};
+                FloatVector                           m_PfoMuonTrackOmega2{};
+                FloatVector                           m_PfoMuonTrackTanLambda2{};
+                FloatVector                           m_PfoMuonTrackPhi2{};
+		FloatVector 			      m_MassResolution{};
+		FloatVector 			      m_trueDarkPhotonMass{};
+		FloatVector 			      m_ResidualDarkPhotonMass{};
+		FloatVector 			      m_NormalizedResidualDarkPhotonMass{};
                 IntVector                             m_track1_isFound{};
                 IntVector                             m_track2_isFound{};
 
 
-		IntVector				m_MCMuonPDG{};
 		FloatVector				m_MCDiMuonInvMass{};
 		FloatVector				m_MCDiMuonCostheta{};
 		FloatVector				m_RecoDiMuonCostheta{};
@@ -133,7 +134,6 @@ class DarkPhotonMassProcessor : public Processor
 
                 double                                  m_coneEC{};
 
-		IntVector		 		m_IsoMuonPDG{};
 		FloatVector				m_IsoDiMuonInvMass{};
 
 
