@@ -1,5 +1,9 @@
 /build
 /lib
 /output
-/Scripts
-/Analysis
+/Scripts/database
+/Scripts/temp
+/Analysis/oldWeighting
+/Analysis/Plots
+/Analysis/temp
+/Analysis/tempDir

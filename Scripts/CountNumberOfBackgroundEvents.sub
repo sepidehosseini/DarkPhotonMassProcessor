@@ -1,0 +1,47 @@
+##########################################
+# Settings file for one HTCondor run.
+#
+##########################################
+
+# Where to write output from HTCondor #TODO CHANGE
+output = /nfs/dust/ilc/user/hosseins/MarlinWorkdir/DiMuonProcessor/Background/OUT/CountNumberOfBackgroundEvents_physProc_$(Process).out
+error  = /nfs/dust/ilc/user/hosseins/MarlinWorkdir/DiMuonProcessor/Background/ERR/CountNumberOfBackgroundEvents_physProc_$(Process).err
+log    = /nfs/dust/ilc/user/hosseins/MarlinWorkdir/DiMuonProcessor/Background/LOG/CountNumberOfBackgroundEvents_physProc_$(Process).log
+
+
+# Script that is supposed to be run
+Executable=/afs/desy.de/group/flc/pool/hosseins/DarkPhotonMassProcessor/Scripts/CountNumberOfBackgrounds.sh
+
+
+# Default universe for normal jobs
+universe	= vanilla
+
++MyProject	= "af-ilc"
+
+Requirements = OpSysAndVer=="CentOS7"
+
+# Should files be transfered to remote machine?
+should_transfer_files	= IF_NEEDED
+
+# When should the user be notified? Options: Always / Complete / Error / Never
+Notification = Never
+
+# Set maximum run time to a day so that also longer jobs can be run like this
+
+# Set Requested amount of memory
+
+# Set Requested disk space
+
+# BIRD resources requests: Update as you need
++RequestRuntime = 3600 * 48
+RequestMemory = 1024 * 12
+RequestDisk = 1024 * 8
+RequestCpus = 1
+
+N=nFiles
+
+Arguments = "$(Process) physProc"
+
+Queue $(N)
+
+#Queue 1

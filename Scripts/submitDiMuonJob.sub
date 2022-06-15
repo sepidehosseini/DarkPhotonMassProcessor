@@ -1,0 +1,47 @@
+##########################################
+# Settings file for one HTCondor run.
+#
+##########################################
+
+# Where to write output from HTCondor #TODO CHANGE
+output = /nfs/dust/ilc/user/hosseins/MarlinWorkdir/DiMuonProcessor/Background/OUT/outName_PhysProsIter_$(Process)_$(Cluster).out
+error  = /nfs/dust/ilc/user/hosseins/MarlinWorkdir/DiMuonProcessor/Background/ERR/outName_PhysProsIter_$(Process)_$(Cluster).err
+log    = /nfs/dust/ilc/user/hosseins/MarlinWorkdir/DiMuonProcessor/Background/LOG/outName_PhysProsIter_$(Process)_$(Cluster).log
+
+
+# Script that is supposed to be run
+Executable=/afs/desy.de/group/flc/pool/hosseins/DarkPhotonMassProcessor/Scripts/runDiMuonJob.sh
+
+
+# Default universe for normal jobs
+universe	= vanilla
+
++MyProject	= "af-ilc"
+
+Requirements = OpSysAndVer=="CentOS7"
+
+# Should files be transfered to remote machine?
+should_transfer_files	= IF_NEEDED
+
+# When should the user be notified? Options: Always / Complete / Error / Never
+Notification = Never
+
+# Set maximum run time to a day so that also longer jobs can be run like this
+
+# Set Requested amount of memory
+
+# Set Requested disk space
+
+# BIRD resources requests: Update as you need
++RequestRuntime = 3600 * 48
+RequestMemory = 1024 * 12
+RequestDisk = 1024 * 8
+RequestCpus = 1
+
+N=nFiles
+
+Arguments = "$(Process) outName PhysProsIter"
+
+Queue $(N)
+
+#Queue 1
