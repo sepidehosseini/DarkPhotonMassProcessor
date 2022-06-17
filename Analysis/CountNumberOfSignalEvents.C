@@ -11,6 +11,9 @@ void CountNumberOfSignalEvents()
 	std::vector<float> lumi_target = { 900.0 , 900.0 , 100.0 , 100.0 };
 	std::vector<float> ePol_target = { -1.0 , +1.0 , -1.0 , +1.0 };
 	std::vector<float> pPol_target = { +1.0 , -1.0 , -1.0 , +1.0 };
+//	std::vector<float> lumi_target = { 900.0 , 900.0 };
+//	std::vector<float> ePol_target = { -1.0 , +1.0 };
+//	std::vector<float> pPol_target = { +1.0 , -1.0 };
 	std::vector<float> NumberOfSigmaRight={ 0.1 , 0.2 , 0.3 , 0.4 , 0.5 , 0.6 , 0.7 , 0.8 , 0.9 , 1.0 , 1.1 , 1.2 , 1.3 , 1.4 , 1.5 , 1.6 , 1.7 , 1.8 , 1.9 , 2.0 , 2.1 , 2.2 , 2.3 , 2.4 , 2.5 , 2.6 , 2.7 , 2.8 , 2.9 , 3.0 };
 	std::vector<float> NumberOfSigmaLeft={ 0.1 , 0.2 , 0.3 , 0.4 , 0.5 , 0.6 , 0.7 , 0.8 , 0.9 , 1.0 , 1.1 , 1.2 , 1.3 , 1.4 , 1.5 , 1.6 , 1.7 , 1.8 , 1.9 , 2.0 , 2.1 , 2.2 , 2.3 , 2.4 , 2.5 , 2.6 , 2.7 , 2.8 , 2.9 , 3.0 };
 	std::vector<string> signalMass={ "10GeV" , "20GeV" , "30GeV" , "40GeV" , "50GeV" , "60GeV" , "70GeV" , "80GeV" , "100GeV" , "110GeV" , "120GeV" , "130GeV" , "140GeV" , "150GeV" , "160GeV" , "170GeV" , "180GeV" , "190GeV" , "200GeV" , "210GeV" , "220GeV" , "230GeV" , "240GeV" };

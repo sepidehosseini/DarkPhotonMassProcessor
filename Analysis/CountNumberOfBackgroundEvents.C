@@ -24,9 +24,13 @@ void CountNumberOfBackgroundEvents()
 	float logStep = 100000.0;
 	double epol_target = 0.8;
 	double ppol_target = 0.3;
-	std::vector<float> lumi_target = { 1350.0 , 450.0 , 100.0 , 100.0 };
-	std::vector<float> ePol_target = { -1.0 , +1.0 , -1.0 , +1.0 };
-	std::vector<float> pPol_target = { +1.0 , -1.0 , -1.0 , +1.0 };
+	std::vector<float> lumi_target = { 900.0 , 900.0 };
+	std::vector<float> ePol_target = { -1.0 , +1.0 };
+	std::vector<float> pPol_target = { +1.0 , -1.0 };
+
+//	std::vector<float> lumi_target = { 900.0 , 900.0 , 100.0 , 100.0 };
+//	std::vector<float> ePol_target = { -1.0 , +1.0 , -1.0 , +1.0 };
+//	std::vector<float> pPol_target = { +1.0 , -1.0 , -1.0 , +1.0 };
 	std::vector<float> NumberOfSigmaRight={ 0.1 , 0.2 , 0.3 , 0.4 , 0.5 , 0.6 , 0.7 , 0.8 , 0.9 , 1.0 , 1.1 , 1.2 , 1.3 , 1.4 , 1.5 , 1.6 , 1.7 , 1.8 , 1.9 , 2.0 , 2.1 , 2.2 , 2.3 , 2.4 , 2.5 , 2.6 , 2.7 , 2.8 , 2.9 , 3.0 };
 	std::vector<float> NumberOfSigmaLeft={ 0.1 , 0.2 , 0.3 , 0.4 , 0.5 , 0.6 , 0.7 , 0.8 , 0.9 , 1.0 , 1.1 , 1.2 , 1.3 , 1.4 , 1.5 , 1.6 , 1.7 , 1.8 , 1.9 , 2.0 , 2.1 , 2.2 , 2.3 , 2.4 , 2.5 , 2.6 , 2.7 , 2.8 , 2.9 , 3.0 };
 	std::vector<float> darkPhotonMass={ 10.0 , 20.0 , 30.0 , 40.0 , 50.0 , 60.0 , 70.0 , 80.0 , 100.0 , 110.0 , 120.0 , 130.0 , 140.0 , 150.0 , 160.0 , 170.0 , 180.0 , 190.0 , 200.0 , 210.0 , 220.0 , 230.0 , 240.0 };
@@ -111,8 +115,8 @@ void CountNumberOfBackgroundEvents()
 		double polweight = 0.0;
 		for ( unsigned int i_pol = 0 ; i_pol < ePol_target.size() ; ++i_pol )
 		{
-			if ( ePolarization_BG == 1 && pPolarization_BG == 1 ) nEventPerPol = nRR_BG;
-			if ( ePolarization_BG == -1 && pPolarization_BG == -1) nEventPerPol = nLL_BG;
+//			if ( ePolarization_BG == 1 && pPolarization_BG == 1 ) nEventPerPol = nRR_BG;
+//			if ( ePolarization_BG == -1 && pPolarization_BG == -1) nEventPerPol = nLL_BG;
 			if ( ePolarization_BG == 1 && pPolarization_BG == -1) nEventPerPol = nRL_BG;
 			if ( ePolarization_BG == -1 && pPolarization_BG == 1) nEventPerPol = nLR_BG;
 			if ( nEventPerPol > 0 ) polweight += ( 1 + ePolarization_BG * ePol_target[ i_pol ] * epol_target ) * ( 1 + pPolarization_BG * pPol_target[ i_pol ] * ppol_target ) * lumi_target[ i_pol ] / ( 4.0 * nEventPerPol ) ;

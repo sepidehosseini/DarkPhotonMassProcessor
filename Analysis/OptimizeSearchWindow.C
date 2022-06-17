@@ -16,7 +16,7 @@ void OptimizeSearchWindow()
 	int nSigR = 30;
 	int nSigL = 30;
 
-	vector<float> maxRangeAlpha={0.39,0.57,0.76,1.1,1.25,1.55,1.9,2.2,7.8,26.0,26.0,18.0,15.0,11.0,11.0,9.0,9.0,7.8,7.2,6.2,5.2,4.2,3.2};
+	vector<float> maxRangeAlpha={1.8,0.65,0.5,0.5,0.5,0.5,0.6,0.65,0.5,0.5,0.5,0.4,0.4,0.3,0.3,0.3,0.3,0.2,0.2,0.2,0.2,0.1,0.1};
 	vector<int> colorCodes={kBlack,kRed,kGreen+2,kBlue+2,kMagenta+2,kBlack,kRed,kGreen+2,kBlue+2,kMagenta+2,kBlack,kRed,kGreen+2,kBlue+2,kMagenta+2,kBlack,kRed,kGreen+2,kBlue+2,kMagenta+2,kBlack,kRed,kGreen+2,kBlue+2,kMagenta+2,kBlack,kRed,kGreen+2,kBlue+2,kMagenta+2,kBlack,kRed,kGreen+2,kBlue+2,kMagenta+2};
 	vector<int> markerStyle={4,4,4,4,4,25,25,25,25,25,26,26,26,26,26,28,28,28,28,28,30,30,30,30,30,32,32,32,32,32};
 //	std::vector<float> NumberOfSigmaRight={ 0.1 , 0.2 , 0.3 , 0.4 , 0.5 , 0.6 , 0.7 , 0.8 , 0.9 , 1.0 , 1.1 , 1.2 , 1.3 , 1.4 , 1.5 , 1.6 , 1.7 , 1.8 , 1.9 , 2.0 };
@@ -35,6 +35,7 @@ void OptimizeSearchWindow()
 	double bestAlpha[ nMass ];
 	double bestNSigmaRight[ nMass ];
 	double bestNSigmaLeft[ nMass ];
+	double bestepsilonlimit[ nMass ];
 	for ( int m = 0 ; m < nMass ; ++m )
 	{
 		bestAlpha[ m ] = 0.0;
@@ -90,11 +91,10 @@ void OptimizeSearchWindow()
 		char header[nChar + 1];
 		strcpy(header, head.c_str());
 		tmg_alpha[ m ] = new TMultiGraph();
-//		leg_alpha[ m ] = new TLegend( 0.1 , 0.05 * maxRangeAlpha[ m ] , NumberOfSigmaLeft[ nSigL - 2 ] , 0.35 * maxRangeAlpha[ m ] , header ,"");
-		leg_alpha[ m ] = new TLegend( 0.1 , 0.1 , NumberOfSigmaLeft[ nSigL - 2 ] , 0.35  , header ,"");
+		leg_alpha[ m ] = new TLegend( 0.1 , 0.05 * maxRangeAlpha[ m ] , NumberOfSigmaLeft[ nSigL - 2 ] , 0.35 * maxRangeAlpha[ m ] , header ,"");
+//		leg_alpha[ m ] = new TLegend( 0.1 , 0.1 , NumberOfSigmaLeft[ nSigL - 2 ] , 0.35  , header ,"");
 		leg_alpha[ m ]->SetNColumns( 5 );
 		leg_alpha[ m ]->SetFillStyle( 0 );
-
 		minAlpha = 1000000.0;
 		for ( int r = 0 ; r < nSigR ; ++r )
 		{
@@ -112,7 +112,10 @@ void OptimizeSearchWindow()
 					bestAlpha[ m ] = alpha[ m ][ r ][ l ];
 					bestNSigmaRight[ m ] = NumberOfSigmaRight[ r ];
 					bestNSigmaLeft[ m ] = NumberOfSigmaLeft[ l ];
+					double epsilonlimit = sqrt( minAlpha ) * 0.01;
+					bestepsilonlimit[ m ] = sqrt( alpha[ m ][ r ][ l ] ) * 0.01;
 				}
+//					cout << epsilonlimit << std::endl;
 			}
 			tgr_alpha[ m ][ r ] = new TGraph( nSigL , NumberOfSigmaLeft , alpha[ m ][ r ] );
 			tgr_alpha[ m ][ r ]->SetDrawOption("AP");
@@ -122,6 +125,7 @@ void OptimizeSearchWindow()
 			tgr_alpha[ m ][ r ]->SetLineWidth( 1 );
 			tgr_alpha[ m ][ r ]->SetMarkerSize( 1.0 );
 			tmg_alpha[ m ]->Add( tgr_alpha[ m ][ r ] );
+			
 			string graphName = ("##sigma_{R} = " + to_string( NumberOfSigmaRight[ r ] ) ).c_str();
 			int nCharTitle = graphName.length();
 			char char_title[nCharTitle + 1];
@@ -129,8 +133,10 @@ void OptimizeSearchWindow()
 			leg_alpha[ m ]->AddEntry( tgr_alpha[ m ][ r ] , char_title , "LP" );
 		}
 		tmg_alpha[ m ]->GetHistogram()->GetXaxis()->SetRangeUser( 0.0 , NumberOfSigmaLeft[ nSigL - 1 ] );
-		tmg_alpha[ m ]->GetHistogram()->GetXaxis()->SetTitle( "##SigmaL" );
-		tmg_alpha[ m ]->GetHistogram()->GetYaxis()->SetRangeUser( 0.0 , 4.5 );
+		tmg_alpha[ m ]->GetHistogram()->GetXaxis()->SetTitle( "##sigmaL" );
+		tmg_alpha[ m ]->GetHistogram()->GetYaxis()->SetRangeUser( 0.0 , maxRangeAlpha[ m ] );
+		tmg_alpha[ m ]->GetHistogram()->GetYaxis()->SetTitle( "#alpha" );
+		tmg_alpha[ m ]->GetHistogram()->SetTitle( ("m_{A_{D}} = " + to_string( darkPhotonMassInt ) + "GeV").c_str() );		
 		can_alpha[ m ] = new TCanvas( header , "" , 800 , 800 );
 		tmg_alpha[ m ]->Draw("alp");
 		gPad->Update();
@@ -142,6 +148,7 @@ void OptimizeSearchWindow()
 		can_alpha[ m ]->SaveAs( ( "Plots/alpha_m_" + to_string( darkPhotonMassInt ) + "_GeV.root" ).c_str() );
 		tmg_alpha[ m ]->GetHistogram()->GetYaxis()->SetRangeUser( bestAlpha[ m ] - 0.05 * bestAlpha[ m ] , bestAlpha[ m ] + 0.05 * bestAlpha[ m ] );
 		tmg_alpha[ m ]->GetHistogram()->GetXaxis()->SetRangeUser( bestNSigmaLeft[ m ] - 0.35 , bestNSigmaLeft[ m ] + 0.35 );
+		tmg_alpha[ m ]->GetHistogram()->SetTitle( ("m_{A_{D}} = " + to_string( darkPhotonMassInt ) + "GeV").c_str() );
 		tmg_alpha[ m ]->GetYaxis()->SetLabelSize(0.05);
 		tmg_alpha[ m ]->GetYaxis()->SetTitleOffset(1.7);
 		tmg_alpha[ m ]->GetXaxis()->SetTitleOffset(0.8);
@@ -173,6 +180,65 @@ void OptimizeSearchWindow()
 		can_alpha[ m ]->Modified();
 		can_alpha[ m ]->SaveAs( ( "Plots/alpha_m_" + to_string( darkPhotonMassInt ) + "_GeV_zoomed.pdf" ).c_str() );
 		can_alpha[ m ]->SaveAs( ( "Plots/alpha_m_" + to_string( darkPhotonMassInt ) + "_GeV_zoomed.root" ).c_str() );
+		
+		
+		TGraph *bestNumberSigmaRight = new TGraph( nMass , darkPhotonMass , bestNSigmaRight );
+		TCanvas *can_bestNSigmaRight = new TCanvas( "can_bestNSigmaRight" , "" , 800 , 800 );
+		bestNumberSigmaRight->SetTitle( ";m_{A_{D}} [GeV];best ##sigma_{R}" );
+		bestNumberSigmaRight->GetXaxis()->SetRangeUser( 0.0 , 260.0 );
+		bestNumberSigmaRight->GetYaxis()->SetRangeUser( 0.0 , 1.8 );
+		bestNumberSigmaRight->GetYaxis()->SetTitleOffset(1.3);
+		bestNumberSigmaRight->Draw("al");
+		gPad->SetTopMargin(0.014);
+		gPad->SetRightMargin(0.014);
+		gPad->SetLeftMargin(0.20);
+		gPad->SetBottomMargin(0.15);
+		can_bestNSigmaRight->SaveAs( "Plots/bestNumberSigmaRight.pdf" );
+		can_bestNSigmaRight->SaveAs( "Plots/bestNumberSigmaRight.root" );	
+		
+		TGraph *bestNumberSigmaLeft = new TGraph( nMass , darkPhotonMass , bestNSigmaLeft );
+		TCanvas *can_bestNSigmaLeft = new TCanvas( "can_bestNSigmaLeft" , "" , 800 , 800 );
+		bestNumberSigmaLeft->SetTitle( ";m_{A_{D}} [GeV];best ##sigma_{L}" );
+		bestNumberSigmaLeft->GetXaxis()->SetRangeUser( 0.0 , 260.0 );
+		bestNumberSigmaLeft->GetYaxis()->SetRangeUser( 0.0 , 3.0 );
+		bestNumberSigmaLeft->GetYaxis()->SetTitleOffset(1.3);
+		bestNumberSigmaLeft->Draw("al");
+		gPad->SetTopMargin(0.014);
+		gPad->SetRightMargin(0.014);
+		gPad->SetLeftMargin(0.20);
+		gPad->SetBottomMargin(0.15);
+		can_bestNSigmaLeft->SaveAs( "Plots/bestNumberSigmaLeft.pdf" );
+		can_bestNSigmaLeft->SaveAs( "Plots/bestNumberSigmaLeft.root" );	
+		
+		TGraph *epsilonlimit = new TGraph( nMass , darkPhotonMass , bestepsilonlimit );
+		TCanvas *can_epsilon = new TCanvas( "can_epsilon" , "" , 800 , 800 );
+		epsilonlimit->SetTitle( ";m_{A_{D}} [GeV];#epsilon_{limit}" );
+		epsilonlimit->GetXaxis()->SetRangeUser( 0.0 , 260.0 );
+		epsilonlimit->GetYaxis()->SetRangeUser( 0.0 , 0.01 );
+		epsilonlimit->GetYaxis()->SetTitleOffset(1.3);
+		epsilonlimit->Draw("al");
+		gPad->SetTopMargin(0.014);
+		gPad->SetRightMargin(0.014);
+		gPad->SetLeftMargin(0.20);
+		gPad->SetBottomMargin(0.15);
+		can_epsilon->SaveAs( "Plots/epsilonlimit.pdf" );
+		can_epsilon->SaveAs( "Plots/epsilonlimit.root" );	
+			
+		
+		TGraph *BestAlpha = new TGraph( nMass , darkPhotonMass , bestAlpha );
+		TCanvas *can_bestAlpha = new TCanvas( "can_bestAlpha" , "" , 800 , 800 );
+		BestAlpha->SetTitle( ";m_{A_{D}} [GeV];best#alpha" );
+		BestAlpha->GetXaxis()->SetRangeUser( 0.0 , 260.0 );
+		BestAlpha->GetYaxis()->SetRangeUser( 0.0 , 0.4 );
+		BestAlpha->GetYaxis()->SetTitleOffset(1.3);
+		BestAlpha->Draw("al");
+		gPad->SetTopMargin(0.014);
+		gPad->SetRightMargin(0.014);
+		gPad->SetLeftMargin(0.20);
+		gPad->SetBottomMargin(0.15);
+		can_bestAlpha->SaveAs( "Plots/bestAlpha.pdf" );
+		can_bestAlpha->SaveAs( "Plots/bestAlpha.root" );	
+			
 	}
 
 

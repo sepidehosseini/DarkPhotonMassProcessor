@@ -26,6 +26,10 @@ void CountNumberOfBackgroundEvents_iterationOfPhysicsProcess_fileIteration()
 	float logStep = 100000.0;
 	double epol_target = 0.8;
 	double ppol_target = 0.3;
+//	std::vector<float> lumi_target = { 900.0 , 900.0 };
+//	std::vector<float> ePol_target = { -1.0 , +1.0 };
+//	std::vector<float> pPol_target = { +1.0 , -1.0 };
+
 	std::vector<float> lumi_target = { 900.0 , 900.0 , 100.0 , 100.0 };
 	std::vector<float> ePol_target = { -1.0 , +1.0 , -1.0 , +1.0 };
 	std::vector<float> pPol_target = { +1.0 , -1.0 , -1.0 , +1.0 };
@@ -142,10 +146,10 @@ void CountNumberOfBackgroundEvents_iterationOfPhysicsProcess_fileIteration()
 		double polweight = 0.0;
 		for ( unsigned int i_pol = 0 ; i_pol < ePol_target.size() ; ++i_pol )
 		{
-			if ( ePolarization_BG == 1 && pPolarization_BG == 1 ) nEventPerPol = nRR_BG;
-			if ( ePolarization_BG == -1 && pPolarization_BG == -1) nEventPerPol = nLL_BG;
-			if ( ePolarization_BG == 1 && pPolarization_BG == -1) nEventPerPol = nRL_BG;
-			if ( ePolarization_BG == -1 && pPolarization_BG == 1) nEventPerPol = nLR_BG;
+			if ( ePol_target[ i_pol ] == 1 && pPol_target[ i_pol ] == 1 ) nEventPerPol = nRR_BG;
+			if ( ePol_target[ i_pol ] == -1 && pPol_target[ i_pol ] == -1) nEventPerPol = nLL_BG;
+			if ( ePol_target[ i_pol ] == 1 && pPol_target[ i_pol ] == -1) nEventPerPol = nRL_BG;
+			if ( ePol_target[ i_pol ] == -1 && pPol_target[ i_pol ] == 1) nEventPerPol = nLR_BG;
 			if ( nEventPerPol > 0 ) polweight += ( 1 + ePolarization_BG * ePol_target[ i_pol ] * epol_target ) * ( 1 + pPolarization_BG * pPol_target[ i_pol ] * ppol_target ) * lumi_target[ i_pol ] / ( 4.0 * nEventPerPol ) ;
 		}
 		double weight = polweight * crossSection_BG;
